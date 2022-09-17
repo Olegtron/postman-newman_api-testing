@@ -14,7 +14,7 @@ Run in terminal `newman run storenew.collection.json`(to run API tests)
 
 Import storenew.collection.json into Postman and run each test manually
 
-### Overview of local server testing
+## Overview of local server testing
 Routes `/products`, `/orders` and `/users`. Below is a table of supported operations with `products` as example resource. The same operations are also supports for `orders/` and `users/`.
 
 | VERB     |Route          | Input      | Output             |
