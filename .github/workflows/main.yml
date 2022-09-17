@@ -1,21 +1,18 @@
-name: Api-testing
+name: api-test
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   test-api:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # INstall Node on the runner
+      # Install Node
       - name: Install Node
         uses: actions/setup-node@v1
         with:
           node-version: "14.x"
-      # Install all dependencies
-      - name: install all dependencies
-        run: npm i 
       # Install the newman command line utility and also install the html extra reporter
       - name: Install newman
         run: |
@@ -24,10 +21,12 @@ jobs:
        # Make directory to upload the test results
       - name: Make Directory for results
         run: mkdir -p testResults
-      # Run POSTMAN collection
+
+      # Run the POSTMAN collection
       - name: Run POSTMAN collection
         run: |
-          newman run "storenew.collection.json" -r htmlextra --reporter-htmlextra-export testResults/index.html 
+          newman run "petstore.collection.json" -r htmlextra --reporter-htmlextra-export testResults/index.html 
+
       # Upload the contents of Test Results directory to workspace
       - name: Output the run Details
         uses: actions/upload-artifact@v3
