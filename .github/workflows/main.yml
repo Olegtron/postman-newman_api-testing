@@ -1,4 +1,4 @@
-name: Test-Build
+name: Api-testing
 on:
   push:
     branches:
@@ -7,7 +7,6 @@ jobs:
   test-api:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       # INstall Node on the runner
       - name: Install Node
@@ -25,8 +24,7 @@ jobs:
        # Make directory to upload the test results
       - name: Make Directory for results
         run: mkdir -p testResults
-
-      # Run the POSTMAN collection
+      # Run POSTMAN collection
       - name: Run POSTMAN collection
         run: |
           newman run "storenew.collection.json" -r htmlextra --reporter-htmlextra-export testResults/index.html 
