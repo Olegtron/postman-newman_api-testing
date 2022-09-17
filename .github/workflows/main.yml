@@ -11,6 +11,36 @@ jobs:
       - uses: actions/checkout@v2
 
 
+steps:
+  -
+    name: Checkout code
+    uses: actions/checkout@v2
+  -
+    name: Serve Files
+    uses: Eun/http-server-action@v1
+    with:
+      directory: ${{ github.workspace }}
+      port: 3000
+      no-cache: false
+      content-types: |
+        {
+          "appcache": "text/cache-manifest",
+          "css": "text/css",
+          "gif": "image/gif",
+          "html": "text/html",
+          "ico": "image/x-icon",
+          "jpeg": "image/jpeg",
+          "jpg": "image/jpeg",
+          "js": "text/javascript",
+          "json": "application/json",
+          "png": "image/png",
+          "txt": "text/plain",
+          "xml": "text/xml"
+        }
+  -
+    run: curl -vvvv http://localhost:3000/index.html
+
+
       # INstall Node on the runner
       - name: Install Node
         uses: actions/setup-node@v1
