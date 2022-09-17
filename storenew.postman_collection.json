@@ -1,0 +1,3693 @@
+{
+	"info": {
+		"_postman_id": "01f97993-72ef-43c2-b487-ef2e90ffb626",
+		"name": "store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23347212"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 201, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(201)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"beer\",\r\n    \"price\": 666,\r\n    \"sku\": 66666666,\r\n    \"description\": \"perfecto\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"price\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"description\": {\r",
+									"                \"type\": \"string\",\r",
+									"            }\r",
+									"        },\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Check that product ID is correct\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response.id).to.eql(4);\r",
+									"  pm.expect(response.name).to.eql(\"beer\");\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Name (asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that products ordered by name\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Products ordered by name', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['name'],['asc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=ASC&sortKey=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Name (desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that products ordered by name\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Products ordered by name', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['name'],['desc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=DESC&sortKey=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by ID (desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that products ordered by id\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Products ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['id'],['desc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=DESC&sortKey=id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by ID (asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that products ordered by id\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Products ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['id'],['asc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=ASC&sortKey=id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Price (desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that products ordered by price\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Products ordered by price', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['price'],['desc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=DESC&sortKey=price",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "price"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Price (asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that products ordered by price\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Products ordered by price', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['price'],['asc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=ASC&sortKey=price",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "price"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Sku(asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that products ordered by sku\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Products ordered by sku', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['sku'],['asc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=ASC&sortKey=sku",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "sku"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Sku(desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that products ordered by sku\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Products ordered by sku', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['sku'],['desc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=DESC&sortKey=sku",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "sku"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pagination (1st page check)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Page 1 contains 2 items\",function(){\r",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(2);\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?page=1&pageSize=2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pagination (2nd page check)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Page 2 contains 2 items\",function(){\r",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(2);\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"\"items\": {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"},\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?page=2&pageSize=2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "pageSize",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"coca-cola\",\r\n    \"price\": 420,\r\n    \"sku\": 63636363,\r\n    \"description\": \"not so perfecto\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get UPDATED product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Check that product updated\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response.id).to.eql(4);\r",
+									"  pm.expect(response.name).to.eql('coca-cola');\r",
+									"  pm.expect(response.price).to.eql(420);\r",
+									"  pm.expect(response.sku).to.eql(63636363);\r",
+									"  pm.expect(response.description).to.eql('not so perfecto');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"price\",\r",
+									"            \"sku\",\r",
+									"            \"description\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"id\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"type\": \"string\",\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"            \"type\": \"integer\",\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"type\": \"string\",\r",
+									"        }\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get DELETED product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 404, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(404)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create product NEGATIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 400, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(400)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"          \",\r\n    \"price\": price,\r\n    \"sku\": 66666666#@%!@%,\r\n    \"description\": \"       \"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product by ID NEGATIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 404, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(404)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/666",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"666"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product NEGATIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 404, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(404)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - text/html; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Response body contains text - Item not found\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include('Item not found');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 357,\r\n    \"name\": \"product\",\r\n    \"price\": 420,\r\n    \"sku\": 63636363,\r\n    \"description\": \"product\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 201, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(201)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"order4\",\r\n    \"sku\": 123425445656765\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Check that Order ID is correct\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response.id).to.eql(4);\r",
+									"  pm.expect(response.name).to.eql(\"order4\");\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by ID (desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that orders ordered by id\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Orders ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['id'],['desc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders?sortOrder=DESC&sortKey=id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by ID (asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that orders ordered by id\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Orders ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['id'],['asc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders?sortOrder=ASC&sortKey=id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Name (desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that orders ordered by name\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Orders ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['name'],['desc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders?sortOrder=DESC&sortKey=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Name (asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that orders ordered by name\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Orders ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['name'],['asc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders?sortOrder=ASC&sortKey=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Sku (desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that orders ordered by sku\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Orders ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['sku'],['desc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders?sortOrder=DESC&sortKey=sku",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "sku"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort by Sku (asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that orders ordered by sku\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Orders ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['sku'],['asc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders?sortOrder=ASC&sortKey=sku",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "sku"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"order4updated\",\r\n    \"sku\": 123425445656765\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get UPDATED order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Check that order updated\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response.id).to.eql(4);\r",
+									"  pm.expect(response.name).to.eql('order4updated');\r",
+									"  pm.expect(response.sku).to.eql(123425445656765);\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\",\r",
+									"            \"sku\",\r",
+									"        ],\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\",\r",
+									"            },\r",
+									"            \"sku\": {\r",
+									"                \"type\": \"integer\",\r",
+									"            },\r",
+									"        },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get DELETED order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 404, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(404)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create order NEGATIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 400, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(400)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"    \",\r\n    \"sku\": qwerty\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by ID NEGATIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 404, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(404)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/754",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"754"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order NEGATIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 404, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(404)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - text/html; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Response body contains text - Item not found\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include('Item not found');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 745,\r\n    \"name\": \"order745updated\",\r\n    \"sku\": 12125252222\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 201, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(201)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"firstName\",\r",
+									"            \"lastName\",\r",
+									"            \"email\",\r",
+									"            \"dateOfBirth\",\r",
+									"            \"emailVerified\",\r",
+									"            \"signUpDate\",\r",
+									"            \"status\",\r",
+									"            \"level\"\r",
+									"        ],\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Oleg\",\r\n    \"lastName\": \"Olegtron\",\r\n    \"email\": \"olegtron@gmail.com\",\r\n    \"dateOfBirth\": \"1993-02-05\",\r\n    \"emailVerified\": false,\r\n    \"signUpDate\": \"2022-09-16\",\r\n    \"status\": \"active\",\r\n    \"level\": \"god\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"firstName\",\r",
+									"            \"lastName\",\r",
+									"            \"email\",\r",
+									"            \"dateOfBirth\",\r",
+									"            \"emailVerified\",\r",
+									"            \"signUpDate\",\r",
+									"            \"status\",\r",
+									"            \"level\"\r",
+									"        ],\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Check that User ID is correct\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response.id).to.eql(10);\r",
+									"  pm.expect(response.lastName).to.eql(\"Olegtron\");\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"firstName\",\r",
+									"            \"lastName\",\r",
+									"            \"email\",\r",
+									"            \"dateOfBirth\",\r",
+									"            \"emailVerified\",\r",
+									"            \"signUpDate\",\r",
+									"            \"status\",\r",
+									"            \"level\"\r",
+									"        ],\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Users by ID (desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"firstName\",\r",
+									"            \"lastName\",\r",
+									"            \"email\",\r",
+									"            \"dateOfBirth\",\r",
+									"            \"emailVerified\",\r",
+									"            \"signUpDate\",\r",
+									"            \"status\",\r",
+									"            \"level\"\r",
+									"        ],\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that users ordered by id\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Orders ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['id'],['desc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users?sortOrder=DESC&sortKey=id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Users by ID (asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"firstName\",\r",
+									"            \"lastName\",\r",
+									"            \"email\",\r",
+									"            \"dateOfBirth\",\r",
+									"            \"emailVerified\",\r",
+									"            \"signUpDate\",\r",
+									"            \"status\",\r",
+									"            \"level\"\r",
+									"        ],\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//Check that users ordered by id\r",
+									"const sorting = require('lodash'),\r",
+									"\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"pm.test('Orders ordered by id', function () {\r",
+									"    const expectedSortedOrder = sorting.orderBy(responseArray, ['id'],['asc'],);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users?sortOrder=ASC&sortKey=id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pagination (1st page check)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Page 1 contains 5 items\",function(){\r",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(5);\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"firstName\",\r",
+									"            \"lastName\",\r",
+									"            \"email\",\r",
+									"            \"dateOfBirth\",\r",
+									"            \"emailVerified\",\r",
+									"            \"signUpDate\",\r",
+									"            \"status\",\r",
+									"            \"level\"\r",
+									"        ],\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users?page=1&pageSize=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pagination (2nd page check)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Page 2 contains 5 items\",function(){\r",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(5);\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"firstName\",\r",
+									"            \"lastName\",\r",
+									"            \"email\",\r",
+									"            \"dateOfBirth\",\r",
+									"            \"emailVerified\",\r",
+									"            \"signUpDate\",\r",
+									"            \"status\",\r",
+									"            \"level\"\r",
+									"        ],\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users?page=2&pageSize=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"firstName\",\r",
+									"            \"lastName\",\r",
+									"            \"email\",\r",
+									"            \"dateOfBirth\",\r",
+									"            \"emailVerified\",\r",
+									"            \"signUpDate\",\r",
+									"            \"status\",\r",
+									"            \"level\"\r",
+									"        ],\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Ilon\",\r\n    \"lastName\": \"Mask\",\r\n    \"email\": \"ilon.mask@gmail.com\",\r\n    \"dateOfBirth\": \"2001-10-99\",\r\n    \"emailVerified\": true,\r\n    \"signUpDate\": \"2019-08-24\",\r\n    \"status\": \"active\",\r\n    \"level\": \"lord\",\r\n    \"id\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get UPDATED user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - application/json; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Check that firstName is correct\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response.id).to.eql(10);\r",
+									"  pm.expect(response.lastName).to.eql(\"Mask\");\r",
+									"});\r",
+									"//JSON schema validation\r",
+									"const schema = {\r",
+									"    \"items\": {\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"firstName\",\r",
+									"            \"lastName\",\r",
+									"            \"email\",\r",
+									"            \"dateOfBirth\",\r",
+									"            \"emailVerified\",\r",
+									"            \"signUpDate\",\r",
+									"            \"status\",\r",
+									"            \"level\"\r",
+									"        ],\r",
+									"    },\r",
+									"};\r",
+									"pm.test('Check that JSON schema validation is true', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 200, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(200)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get DELETED user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 404, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(404)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user NEGATIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 400, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(400)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\": \"Olegtron\",\r\n    \"email\": \"olegtron@gmail.com\",\r\n    \"dateOfBirth\": \"1993-02-05\",\r\n    \"emailVerified\": false,\r\n    \"signUpDate\": \"2022-09-16\",\r\n    \"status\": \"active\",\r\n    \"level\": \"god\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID NEGATIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 404, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(404)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/343",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"343"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user NEGATIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Check that status code is 404, if else - will fail\", function () {\r",
+									"    if (pm.response.to.have.status(404)) {}\r",
+									"    else { pm.expect.fail() }\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Content-Type header contains - text/html; charset=utf-8\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html; charset=utf-8');\r",
+									"});\r",
+									"pm.test(\"Response body contains text - Item not found\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include('Item not found');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Ilon\",\r\n    \"lastName\": \"Mask\",\r\n    \"email\": \"ilon.mask@gmail.com\",\r\n    \"dateOfBirth\": \"2001-10-99\",\r\n    \"emailVerified\": true,\r\n    \"signUpDate\": \"2019-08-24\",\r\n    \"status\": \"active\",\r\n    \"level\": \"lord\",\r\n    \"id\": 700\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
