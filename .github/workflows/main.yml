@@ -18,6 +18,8 @@ jobs:
           npm install -g newman-reporter-htmlextra
       - name: Make Directory for results
         run: mkdir -p testResults
+      - name: Run local server on port 3000
+        run: npm run tern-on-api
       - name: Run POSTMAN collection
         run: |
           newman run "store.collection.json" -r htmlextra --reporter-htmlextra-export testResults/index.html
