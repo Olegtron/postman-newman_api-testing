@@ -9,13 +9,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      - name: Serve Files
-        uses: Eun/http-server-action@v1
-        with:
-          directory: ${{ github.workspace }}
-          port: 3000
-          no-cache: false
       # INstall Node on the runner
       - name: Install Node
         uses: actions/setup-node@v1
