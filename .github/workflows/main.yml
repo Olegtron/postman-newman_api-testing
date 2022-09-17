@@ -24,12 +24,10 @@ jobs:
       # Make directory to upload the test results
       - name: Make Directory for results
         run: mkdir -p testResults
-
       # Run the POSTMAN collection
       - name: Run POSTMAN collection
         run: |
           newman run "petstore.collection.json" -r htmlextra --reporter-htmlextra-export testResults/index.html 
-
       # Upload the contents of Test Results directory to workspace
       - name: Output the run Details
         uses: actions/upload-artifact@v3

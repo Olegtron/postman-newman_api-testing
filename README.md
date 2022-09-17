@@ -9,7 +9,9 @@
 
 ## Test execution
 Run in terminal `newman run storenew.collection.json`(to run API tests)
+
 **OR**
+
 Import storenew.collection.json into Postman and run each test manually
 
 ### Overview of local server testing
