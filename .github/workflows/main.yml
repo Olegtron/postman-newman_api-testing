@@ -13,8 +13,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "14.x"
+      # Install all dependencies
+      - name: install all dependencies
+        run: npm i 
       # Install the newman command line utility and also install the html extra reporter
-      - name: Install newman
+      - name: install newman
         run: |
           npm install -g newman
           npm install -g newman-reporter-htmlextra
